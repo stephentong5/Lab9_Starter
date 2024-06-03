@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 9</title>
+  
 
   <style>
     button {
@@ -87,7 +88,22 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "1a06a9781e7e413a88dcc155579b1ac2"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                        
+
+  <script>
+    class DivisionError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "DivisionError";
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,13 +111,126 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        if(secondNum == '0' && operator == '/') {
+          throw new DivisionError("Cannot divide by 0");
+        }
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch(err) {
+        console.error(err);
+      }
+      finally {
+        console.log("Good job on checking for errors!");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    let log = errorBtns[0];
+    let error = errorBtns[1];
+    let count = errorBtns[2];
+    let warn = errorBtns[3];
+    let assert = errorBtns[4];
+    let clear = errorBtns[5];
+    let dir = errorBtns[6];
+    let dirxml = errorBtns[7];
+    let Sgroup = errorBtns[8];
+    let Egroup = errorBtns[9];
+    let table = errorBtns[10];
+    let Stimer = errorBtns[11];
+    let Etimer = errorBtns[12];
+    let trace = errorBtns[13];
+    let global = errorBtns[14];
+
+    log.addEventListener('click', function() {
+      console.log('Console Log Demo');
+    });
+
+    error.addEventListener('click', function() {
+      console.error('Console Error Demo');
+    });
+
+    count.addEventListener('click', function() {
+      console.count('Count Button');
+    });
+
+    warn.addEventListener('click', function() {
+      console.warn('Console Warn Button')
+    });
+
+    assert.addEventListener('click', function() {
+      let number = 2;
+      let errorMsg = 'The number does not equal 3';
+      console.assert(number == 3, {number, errorMsg});
+    });
+
+    clear.addEventListener('click', function() {
+      console.clear();
+    });
+
+    dir.addEventListener('click', function() {
+      console.dir(dir);
+    });
+
+    dirxml.addEventListener('click', function() {
+      console.dirxml(dirxml);
+    });
+
+    Sgroup.addEventListener('click', function() {
+      console.group('console.group');
+    });
+
+    Egroup.addEventListener('click', function() {
+      console.groupEnd('console.group');
+    });
+
+    table.addEventListener('click', function() {
+      let classes = [
+        {
+          name: 'Software Engineering',
+          num: 110,
+        },
+        {
+          name: 'Programming Languages',
+          num: 130,
+        },
+        {
+          name: 'Advanced Software Engineering',
+          num: 112,
+        }
+      ];
+      console.table(classes);
+    });
+
+    Stimer.addEventListener('click', function() {
+      console.time('Timer Button');
+    });
+
+    Etimer.addEventListener('click', function() {
+      console.timeEnd('Timer Button');
+    });
+
+    trace.addEventListener('click', function() {
+      const handleBtnClick = () => { deep(); };
+      const deep = () => { deeper(); };
+      const deeper = () => { deepest(); };
+      const deepest = () => { console.trace(); };
+      handleBtnClick();
+    });
+
+    global.addEventListener('click', function() {
+      try {
+        boom();
+      }
+      catch (err) {
+        console.error(err);
+        console.log('Sadly an error happened my friend');             
+      }
+    });
   </script>
 </body>
 
