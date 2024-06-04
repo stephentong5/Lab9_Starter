@@ -223,13 +223,14 @@
     });
 
     global.addEventListener('click', function() {
-      try {
-        boom();
+      function boom() {
+        console.log(fakeVar);
       }
-      catch (err) {
-        console.error(err);
-        console.log('Sadly an error happened my friend');             
+      window.onerror = function(event, source, lineno, colno, error) {
+        console.log("Global Error: " + event);
+        console.log("Source: " + source);
       }
+      boom();
     });
   </script>
 </body>
